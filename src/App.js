@@ -44,12 +44,12 @@ class App extends Component {
     this.setState({ famille });
   };
 
-  handleChange = (event) => {
+  handleChange = (event, membre) => {
     //copie du state
     const famille = { ...this.state.famille };
     //apport des modifications
     const nom = event.target.value;
-    famille.membre1.nom = nom;
+    famille[membre].nom = nom;
     //mise a jour du state
     this.setState({ famille });
   };
@@ -86,6 +86,7 @@ class App extends Component {
         nom={famille[membre].nom} 
         age={famille[membre].age}
         cacherNom={() => this.handleCacher(membre)}
+        changerNom={(event) => this.handleChange(event, membre)}
       /> 
     ))
 
@@ -94,27 +95,27 @@ class App extends Component {
         <div className="App">
           <h1>{titre}</h1>
           <input
-            type="text"
-            value={famille.membre1.nom}
-            onChange={this.handleChange}
-          />
-          <input
             type="number"
             value={ageIncrement}
             onChange={this.handleIncrement}
           />
-          {liste}
-          <Membre nom={famille.membre4.nom} age={famille.membre4.age}>
-            {quote}
-            <button onClick={this.handleShowQuote}>
-              {quoteIsShown ? "Cacher" : "Montrer"}
-            </button>
-          </Membre>
           <Button
             membre={famille.membre1.nom}
             annee={ageIncrement}
             viellir={() => this.handleClick(ageIncrement)}
           />
+          {liste}
+          <Membre 
+            nom={famille.membre4.nom} 
+            age={famille.membre4.age}
+            cacherNom={() => this.handleCacher('membre4')}
+            changerNom={(event) => this.handleChange(event, 'membre4')}
+          >
+            {quote}
+            <button onClick={this.handleShowQuote}>
+              {quoteIsShown ? "Cacher" : "Montrer"}
+            </button>
+          </Membre>
         </div>
       </Fragment>
     );
